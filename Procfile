@@ -1,2 +1,2 @@
-web: gunicorn heroapp.wsgi
+web: gunicorn games.wsgi
 release: python manage.py migrate
