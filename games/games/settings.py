@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-c35-77j+jat*%j@onsckyt4u^*&!7t#*!6-wx@((6+o4_kkmif
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'immense-mesa-44208']
 
 
 # Application definition
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'games.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
