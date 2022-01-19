@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<title>Add player</title>
+<h1>Add player</h1>
+<p>This is the template that is directly the child of the templates directory</p>
+
+<table>
+        <tr>
+            <th>Player</th>
+
+        </tr>
+        {% for obj in objs %}
+        <tr>
+
+            <td>{{ obj.name }}</td>
+
+
+        </tr>
+         {% endfor %}
+    </table>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+
+
+    <button type="submit" class="btn btn-success">Save player</button>
+  </form>
+{% endblock %}

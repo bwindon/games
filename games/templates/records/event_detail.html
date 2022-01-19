@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Title: {{ event.g_name }}</h1>
+
+<p><strong>ID:</strong> <a href="/records/home">{{ event.id }}</a></a></p><!-- author detail link not yet defined -->
+<p><strong>Date: </strong>{{ event.g_date }} </p>
+<p><strong>Location: </strong>{{ event.g_location }} </p>
+<p><strong>Players: </strong>{{ event.g_players }} </p>
+<p><strong>Winner(s): </strong>{{ event.g_winners.all }} </p>
+<p><strong>Notes: </strong>{{ event.g_notes }} </p>
+
+<p>Note: template is child of games/templates/records/</p>
+
+{% endblock %}

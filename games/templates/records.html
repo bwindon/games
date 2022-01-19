@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+{% block content %}
+<html lang="en">
+<style>table, th, tr, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<table>
+        <tr>
+            <th><input type="text" class="search-input" placeholder="name">
+            <th>- -</th>
+            <th>- -</th>
+        </tr>
+<p></p>
+    {% for e_datas in e_data reversed %}
+        <tr>
+            <th>{{ e_datas.pk }}</th>
+            <th>{{ e_datas.g_name }}</th>
+            <th>{{ e_datas.g_date }}</th>
+            <th>{{ e_datas.g_location }}</th>
+            <th>{{ e_datas.g_tag }}</th>
+            <th>{{ e_datas.g_players.all }}</th>
+            <th>{{ e_datas.g_notes }}</th>
+            <th>{{ e_datas.g_winners.all }}</th>
+        </tr>
+    {% endfor %}
+</table>
+<p></p>
+<table>
+    {% for w_datas in w_data reversed %}
+        <tr>
+            <th>{{ w_datas.pk }}</th>
+            <th>{{ w_datas.g_event }}</th>
+            <th>{{ w_datas.winners.all }}</th>
+        </tr>
+    {% endfor %}
+</table>
+<p></p>
+<table>
+
+    {% for p_datas in p_data reversed %}
+        <tr>
+            <th>{{ p_datas.pk }}</th>
+            <th>{{ p_datas.name }}</th>
+
+        </tr>
+    {% endfor %}
+</table>
+<p></p>
+<table>
+
+    {% for g_datas in g_data reversed %}
+        <tr>
+            <th>{{ g_datas.pk }}</th>
+            <th>{{ g_datas.name }}</th>
+
+        </tr>
+    {% endfor %}
+
+</table>
+</body>
+{% endblock content %}

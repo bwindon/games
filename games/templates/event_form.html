@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style>
+table {
+  width: 50%;
+}
+</style>
+<title>Add event</title>
+<h1 class="mt-2">Add event</h1>
+<p>This is the template that is directly the child of the templates directory</p>
+
+
+    <table>
+        <tr>
+            <th>Game date</th>
+            <th>Game name</th>
+        </tr>
+        {% for obj in objs %}
+        <tr>
+
+            <td>{{ obj.g_date }}</td>
+            <td>{{ obj.g_name }}</td>
+
+        </tr>
+         {% endfor %}
+    </table>
+
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+
+    <button type="submit" class="btn btn-success">Save event</button>
+  </form>
+{% endblock %}

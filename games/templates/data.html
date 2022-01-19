@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+{% block content %}
+<html lang="en">
+<style>table, th, tr, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+
+<body>
+
+{{ data.pk }}<p></p>
+{{ data.g_event.all }}<p></p>
+{{ data.winners.all }}<p></p>
+
+<p>This is the line prior to {{ data }}</p>
+{{ data }}<p></p>
+
+<p>This is a space for data2</p>
+{{ data2 }}
+</body>
+
+{% endblock content %}
