@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 import django_heroku
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'records',
     'django_tables2',
+    'django_extensions',
+    'crispy_forms',
+    'bootstrap_datepicker_plus',
+    'django_filters',
+    'bootstrap4',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,10 +63,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'games.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ['templates'],
+        #'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 #os.path.join(BASE_DIR, 'records', 'templates'),
+        #         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,6 +130,8 @@ TIME_ZONE = 'Australia/Sydney'
 USE_I18N = True
 
 USE_TZ = True
+
+USE_L10N = True
 
 
 # Static files (CSS, JavaScript, Images)

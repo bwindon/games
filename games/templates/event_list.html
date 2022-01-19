@@ -1,12 +1,23 @@
-{% load render_table from django_tables2 %}
 
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
 <html>
     <head>
-        <title>List of Events</title>
+        <title>List of events</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     </head>
     <body>
-        {% render_table table %}
-    </body>
+    <p>This is the body of event_list</p>
+    {% render_table table %}
 
+{% if filter %}
+    <form action="" method="get" class="form form-inline">
+        {% bootstrap_form filter.form layout='inline' %}
+        {% bootstrap_button 'filter' %}
+    </form>
+{% endif %}
+
+    </body>
 </html>
+
+
