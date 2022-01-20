@@ -33,17 +33,8 @@ class Event(models.Model):
     g_tag = models.CharField(blank=True, max_length=50, verbose_name='Descriptor')
     g_players = models.ManyToManyField(Player, verbose_name='Players', related_name='Players')
     g_notes = models.CharField(blank=True, null=True, verbose_name='Notes', max_length=100)
-    g_winners = models.ManyToManyField(Player, blank=True, verbose_name='Winners', related_name='Winners')
+    g_winner = models.ForeignKey(Player, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Winner')
 
     def __str__(self):
-        return '%s on %s' % (self.g_name, self.g_date)
+        return 'ID = %s %s on %s' % (self.id, self.g_name, self.g_date)
 
-
-class Result(models.Model):
-    """"List of winners for an event"""
-
-    g_event = models.OneToOneField(Event, on_delete=models.CASCADE, verbose_name='Event instance')
-    winners = models.ManyToManyField(Player, verbose_name='Winners')
-
-    def __int__(self):
-        return self.winners

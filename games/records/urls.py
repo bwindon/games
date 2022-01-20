@@ -7,12 +7,12 @@ urlpatterns = [
 
     path('home/', views.home, name='home'),
     path('menu/', views.menu, name='menu'),
+    path('wins/<int:player_id>/', views.WinDataView, name='wins'),
 
     path('data/', views.DataRequest, name='data'),
     path('record/', views.RecordList, name='record'),
 
     path("event-list/", views.EventList.as_view()),
-    path("result-list/", views.ResultsList.as_view()),
     path("player-list/", views.PlayerList.as_view()),
     path('event-list-simple/', views.EventListSimple.as_view()),
 

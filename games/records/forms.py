@@ -6,7 +6,7 @@ from django.forms.widgets import NumberInput, Textarea, TextInput
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ('g_name', 'g_location', 'g_date', 'g_tag', 'g_players', 'g_winners', 'g_notes')
+        fields = ('g_name', 'g_location', 'g_date', 'g_tag', 'g_players', 'g_winner', 'g_notes')
 
         widgets = {
             'g_date': NumberInput(attrs={'type': 'date'}),

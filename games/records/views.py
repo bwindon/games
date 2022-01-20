@@ -1,16 +1,30 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Event, Result, Player, Game
+from .models import Event, Player, Game
 from django.views.generic import ListView
 from django_tables2 import SingleTableView, SingleTableMixin
-from .tables import EventTable, ResultTable, PlayerTable
-from .functions import GetPlayers
+from .tables import EventTable, PlayerTable
+from .functions import GetPlayers, WinData
 from django.views.generic import CreateView, DetailView
 from .forms import EventForm, PlayerForm, GameForm
 from django.urls import reverse_lazy
 from django_filters.views import FilterView
 from .filters import EventFilter
 # Create your views here.
+
+
+def DataRequest(request):
+    """Shell view for retriving objects"""
+    data = GetPlayers()
+    print('data inside view =', data)
+    return render(request, 'data.html', {'data': data})
+
+
+def WinDataView(request, player_id):
+    # returns count of player id in g_winners
+    data = WinData(player_id)
+    print('data in QS from WinDataView', data)
+    return render(request, 'data.html', {'data': data})
 
 
 def home(request):
@@ -34,12 +48,6 @@ class EventListSimple(ListView):
     template_name = 'event_list_simple.html'
 
 
-class ResultsList(SingleTableView):
-    model = Result
-    table_class = ResultTable
-    template_name = 'event_list.html'
-
-
 class PlayerList(SingleTableView):
     model = Player
     table_class = PlayerTable
@@ -48,31 +56,23 @@ class PlayerList(SingleTableView):
 
 class EventDetailView(DetailView):
     model = Event
-    fields = ('g_name', 'g_date', 'g_location', 'g_tag', 'g_players', 'g_notes', 'g_winners')
+    fields = ('g_name', 'g_date', 'g_location', 'g_tag', 'g_players', 'g_notes', 'g_winner')
 
 
 def RecordList(request):
     e_data = Event.objects.all()
-    w_data = Result.objects.all()
     p_data = Player.objects.all()
     g_data = Game.objects.all()
     #print(e_data)
-    print(w_data)
+    print(e_data)
 
-    return render(request, 'records.html', {'e_data': e_data, 'w_data': w_data, 'p_data': p_data, 'g_data': g_data})
-
-
-def DataRequest(request):
-    """Shell view for retriving objects"""
-    data = GetPlayers()
-    print('data inside view =', data)
-    return render(request, 'data.html', {'data': data})
+    return render(request, 'records.html', {'e_data': e_data, 'p_data': p_data, 'g_data': g_data})
 
 
 """
 Forms - two types. 
 First based on create view CLASS. Harder to pass list to template.
-Second based on a view FUNCTION that calls EventForm CLASS. ALlows the function to pass list to tmaplate
+Second based on a view FUNCTION that calls EventForm CLASS. ALlows the function to pass list to template
 """
 
 
