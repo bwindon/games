@@ -6,3 +6,6 @@ class EventFilter(django_filters.FilterSet):
     class Meta:
         model = Event
         fields = ['g_name', 'g_players']
+
+
+

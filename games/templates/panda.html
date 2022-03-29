@@ -1,0 +1,30 @@
+<!--
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
+{% block content %}
+-->
+<html lang="en">
+<style>
+ table, th, td {
+        font-size: 12px;
+        text-align: left;
+        font-weight: bold;
+        color: #6d6d6d;
+        background-color: #f7f7f9;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    {{df|safe}}
+
+<p></p>
+
+</body>
+</html>
+{% endblock content %}

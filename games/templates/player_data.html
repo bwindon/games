@@ -20,39 +20,28 @@
 </head>
 
 <body>
-<h1>Game data</h1>
+<h1>Player win data</h1>
 
-<p></p>
+<h1>testing area</h1>
+
 <table>
         <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>wins</th>
-            <th>played</th>
-            <th>win ratio</th>
+            <p>Game: {{ game }}</p>
+            <p>Player: {{ player }}</p>
+            <p>Opponent: {{ opponent }}</p>
+        </tr>
+        {% for obj in p_data %}
+
+            <td>{{ obj }}</td>
 
         </tr>
-        {% for obj in data %}
-        <tr>
-
-            <td>{{ obj.pk }}</td>
-            <td>{{ obj.name }}</td>
-            <td>{{ obj.wins }}</td>
-            <td>{{ obj.played }}</td>
-            <td>{{ obj.percent }}</td>
-            <td>{{ obj.random_label }}</td>
+        {% endfor %}
+    </table>
 
 
-        </tr>
-         {% endfor %}
-
-
-</table>
 <h1>Future features</h1>
 <p></p>
 <strong>
-filter by players so, e.g. Alan v Brad<br>
-filter by games so - Alan v Brad in MTG<br>
 graphs - summary<br>
 line graph cumulative wins over time<br>
 </strong>

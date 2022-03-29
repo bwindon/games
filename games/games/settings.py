@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'records',
+    'sales',
     'django_tables2',
     'django_extensions',
     'crispy_forms',
     'bootstrap_datepicker_plus',
     'django_filters',
     'bootstrap4',
+    'django_pivot',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

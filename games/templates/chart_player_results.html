@@ -1,0 +1,112 @@
+{% extends 'base2.html'%}
+{%block content%}
+<style>
+div {
+    margin:50px;
+}
+</style>
+<div>{{ pl_name.name }}'s results against opponents for {{ gm.name }}.</div>
+{%endblock content%}
+
+
+{%block scripts%}
+<canvas id="myChart" style="width: 50%;max-width:700px"></canvas>
+<canvas id="myLineChart" style="width: 50%;max-width:700px"></canvas>
+<canvas id="myChart0" style="width: 50%;max-width:700px"></canvas>
+
+<script>
+// setup
+
+        const data = {
+                labels: {{op_list |safe}},
+                datasets: [{
+                    label: '# of player wins',
+                    data: {{w_key|safe}},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderWidth: 1
+                    },{
+                    label: '# of opponent wins',
+                    data: {{ow_key|safe}},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+        };
+
+        // config
+        const config = {
+            type: 'bar',
+            data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    xAxes:  [{
+                        stacked: true
+                    }],
+                    yAxes:  [{
+                        stacked: true
+                    }],
+                }
+            }
+        };
+// config line chart
+        const config2 = {
+            type: 'bar',
+            data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                }
+            }
+        };
+
+// render
+var count = 3;
+for (var j = 0; j < count; j++){
+        const myChart  = new Chart(
+        document.getElementById('myChart'),
+        config
+        );
+}
+// render line chart
+        const myLineChart = new Chart(
+        document.getElementById('myLineChart'),
+        config2
+        );
+</script>
+{%endblock scripts%}
+
+

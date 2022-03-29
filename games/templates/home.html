@@ -1,26 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
 
 <head>
     <meta charset="UTF-8">
     <title>home</title>
 </head>
 <body>
-<h2>Home</h2>
 
 <header>
-  <h2>Baloth</h2>
+  <h2>Baloths</h2>
 </header>
 
-
 <p><a href="/records/event-form">Add event</a></p>
+<p><a href="/records/select-chart">Player chart</a></p>
 <p><a href="/records/player-form">Add player</a></p>
 <p><a href="/records/game-form">Add game name</a></p>
-
-
-<p><a href="/records/home">View records - TBC</a></p>
-
-<footer>
-  <p>Footer</p>
-</footer>
+<p><a href="/records/event-list">Event list</a></p>
+<p><a href="/records/data">View records - under construction</a></p>
 
 </body>
 </html>
+{% endblock content %}
