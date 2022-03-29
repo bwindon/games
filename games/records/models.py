@@ -1,8 +1,5 @@
 from django.db import models
-from django.db.models.functions import Coalesce
-from django.urls import reverse
-from django.utils.html import escape, format_html
-import pandas as pd
+
 
 # Create your models here.
 class Player(models.Model):

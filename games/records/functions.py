@@ -1,7 +1,4 @@
 from records.models import Player, Event, Game
-from django.db.models import Q
-from django_pivot.pivot import pivot
-from django_pivot.histogram import histogram
 import pandas as pd
 
 
