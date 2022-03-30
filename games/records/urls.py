@@ -25,6 +25,6 @@ urlpatterns = [
     path('panda-winners/<int:pl>/<int:gm>/<int:op>/', views.PandasWinnerView, name='panda'),
     path('panda-results/<int:pl>/', views.PandaResultsView, name='panda-results'),
     path('chart', views.ChartView, name='chart'),
-    path('chart-results/<int:pl>/<int:gm>/<int:chart>', views.ChartResultsView, name='chart-results'),
+    path('chart-results/<int:pl>/<int:gm>', views.ChartResultsView, name='chart-results'),
     path('select-chart', views.SelectChart, name= 'select_chart'),
 ]

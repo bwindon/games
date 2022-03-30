@@ -17,7 +17,7 @@ class Game(models.Model):
     """
     name = models.CharField(unique=True, max_length=50)
     collab = models.BooleanField(default=False)
-    g_code = models.CharField(max_length=8)
+    g_code = models.CharField(unique=True, max_length=8)
 
     def __str__(self):
         return "{} - {} - {}".format(self.name, self.collab, self.g_code)

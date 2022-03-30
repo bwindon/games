@@ -75,10 +75,11 @@ class PlayerDataSelectForm(forms.Form):
         MYQUERY2 = Game.objects.values_list('id', 'name')
         self.fields['game'] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=(*MYQUERY2,))
 
+"""
         CHART_CHOICES = (
             ('1', 'Bar Graph'),
             ('2', 'Pie Chart'),
             ('3', 'Line Graph')
         )
         self.fields['chart'] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=(*CHART_CHOICES,))
-
+"""

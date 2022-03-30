@@ -26,13 +26,13 @@ def SelectChart(request):
     if request.method == 'POST':
         pl = request.POST.get('name')
         gm = request.POST.get('game')
-        chart = request.POST.get('chart')
+        #chart = request.POST.get('chart')
 
         player_df = CreatePlayerDataFrame(pl)
 
         if len(player_df) > 0:
 
-            return HttpResponseRedirect(reverse('chart-results', args=(pl, gm, chart)))
+            return HttpResponseRedirect(reverse('chart-results', args=(pl, gm)))
 
         else:
             messages.warning(request, "Apparently no data available...")
@@ -43,7 +43,7 @@ def SelectChart(request):
     return render(request, 'chart_results_select.html', context)
 
 
-def ChartResultsView(request, pl, gm, chart):
+def ChartResultsView(request, pl, gm):
 
     """Get player dataframe and parse data for chart"""
     player_df = CreatePlayerDataFrame(pl)
@@ -74,7 +74,6 @@ def ChartResultsView(request, pl, gm, chart):
         'w_key': w_data,
         'p_key': p_data,
         'ow_key': ow_data,
-        'chart': chart,
         'pl_name': pl_name,
         'gm': gm,
     }
