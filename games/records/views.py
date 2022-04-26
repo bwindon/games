@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, TemplateView
 from django_tables2 import SingleTableView, SingleTableMixin
@@ -14,6 +15,16 @@ from django.contrib import messages
 from django.urls import reverse
 
 
+def DataFrameToListView(request,pl):
+    pl = 1
+    player_df_test = DataFrameToList()
+    # compile dictionary and pass to template
+    df_dict = {
+        "df": player_df_test
+    }
+    return render(request, 'panda.html', context=df_dict)
+
+
 def SelectChart(request):
     player_df = None
     op_list = None
@@ -26,13 +37,19 @@ def SelectChart(request):
     if request.method == 'POST':
         pl = request.POST.get('name')
         gm = request.POST.get('game')
-        #chart = request.POST.get('chart')
+        chart = request.POST.get('chart')
+        if chart == '1':
+            chart_type = 'google-chart'
+        elif chart == '2':
+            chart_type = 'chart-results'
+        else:
+            chart_type = 'google-dashboard'
 
         player_df = CreatePlayerDataFrame(pl)
 
         if len(player_df) > 0:
 
-            return HttpResponseRedirect(reverse('chart-results', args=(pl, gm)))
+            return HttpResponseRedirect(reverse(chart_type, args=(pl, gm)))
 
         else:
             messages.warning(request, "Apparently no data available...")
@@ -41,6 +58,141 @@ def SelectChart(request):
         'search_form': search_form
     }
     return render(request, 'chart_results_select.html', context)
+
+
+def DataframeDashboardStackedView(request, pl):
+
+    # h_var : The title for horizontal axis
+    h_var = 'opponent'
+    h_var_json = json.dumps(h_var)
+
+    # v_var : The title for horizontal axis
+    v_var = 'wins'
+    v_var_json = json.dumps(v_var)
+    v_var2 = 'opponent wins'
+
+    full_data = DataFrameToStackedList(pl)
+    full_data_json = json.dumps(full_data)
+
+    values = [
+        ["opponent", "wins", "opponent wins"],
+        ["Brad - m", 4, 2],
+        ["Brad - s", 0, 1],
+        ["Rob - m", 1, 4],
+        ["Rob - s", 1, 4],
+        ["Rob - d", 1, 4],
+        ["Rob - x", 1, 4],
+    ]
+
+    return render(request, 'dataframe_dashboard_stacked.html', {'values': values, 'h_title': h_var_json,'v_title': v_var_json})
+
+
+def DataframeDashboardView(request, pl):
+
+    # h_var : The title for horizontal axis
+    h_var = 'opponent'
+    h_var_json = json.dumps(h_var)
+
+    # v_var : The title for horizontal axis
+    v_var = 'wins'
+    v_var_json = json.dumps(v_var)
+    v_var2 = 'opponent wins'
+
+    full_data = DataFrameToList(pl)
+    full_data_json = json.dumps(full_data)
+    print(full_data_json)
+    return render(request, 'dataframe_dashboard.html', {'values': full_data_json, 'h_title': h_var_json,'v_title': v_var_json})
+
+
+def GoogleDashboardView(request, pl, gm):
+    gm = 1
+    """Get player dataframe and parse data for chart"""
+    player_df = CreatePlayerDataFrame(pl)
+
+    """get player name for chart label"""
+    qs = Player.objects.filter(id=pl)
+    for pl_name in qs:
+        pl_name.name
+    print(pl_name)
+
+    """Get g_code prefix for list making"""
+    g_code_prefix = Game.objects.filter(id=gm)
+    for gm in g_code_prefix:
+        w = gm.g_code + 'w'
+        p = gm.g_code + 'p'
+        ow = gm.g_code + 'ow'
+
+    """Create lists for chart"""
+    op_list = player_df.opponent.tolist()
+    w_data = player_df[str(w)].tolist()
+    p_data = player_df[str(p)].tolist()
+    ow_data = player_df[str(ow)].tolist()
+
+    # h_var : The title for horizontal axis
+    h_var = 'opponent'
+
+    # v_var : The title for horizontal axis
+    v_var = 'wins'
+    v_var2 = 'opponent wins'
+    # data : A list of list which will ultimated be used
+    # to populate the Google chart.
+
+    data = [[h_var, v_var, v_var2]]
+    l = len(op_list)
+    for i in range(0, l):
+        data.append([op_list[i], w_data[i], ow_data[i]])
+
+    data_json = json.dumps(data)
+    h_var_JSON = json.dumps(h_var)
+    v_var_JSON = json.dumps(v_var)
+    print('data JSON', data_json)
+
+    return render(request, 'google_dashboard.html', {'values': data_json, 'h_title': h_var_JSON,'v_title': v_var_JSON})
+
+
+def GoogleChartResultsView(request, pl, gm):
+
+    """Get player dataframe and parse data for chart"""
+    player_df = CreatePlayerDataFrame(pl)
+
+    """get player name for chart label"""
+    qs = Player.objects.filter(id=pl)
+    for pl_name in qs:
+        pl_name.name
+    print(pl_name)
+
+    """Get g_code prefix for list making"""
+    g_code_prefix = Game.objects.filter(id=gm)
+    for gm in g_code_prefix:
+        w = gm.g_code + 'w'
+        p = gm.g_code + 'p'
+        ow = gm.g_code + 'ow'
+
+    """Create lists for chart"""
+    op_list = player_df.opponent.tolist()
+    w_data = player_df[str(w)].tolist()
+    p_data = player_df[str(p)].tolist()
+    ow_data = player_df[str(ow)].tolist()
+
+    # h_var : The title for horizontal axis
+    h_var = 'opponent'
+
+    # v_var : The title for horizontal axis
+    v_var = 'wins'
+    v_var2 = 'opponent wins'
+    # data : A list of list which will ultimated be used
+    # to populate the Google chart.
+
+    data = [[h_var, v_var, v_var2]]
+    l = len(op_list)
+    for i in range(0, l):
+        data.append([op_list[i], w_data[i], ow_data[i]])
+
+    data_json = json.dumps(data)
+    h_var_JSON = json.dumps(h_var)
+    v_var_JSON = json.dumps(v_var)
+    print('data json ob working chart ', data_json)
+    return render(request, 'google_chart.html', {'values': data_json, 'h_title': h_var_JSON,'v_title': v_var_JSON})
 
 
 def ChartResultsView(request, pl, gm):
@@ -66,6 +218,7 @@ def ChartResultsView(request, pl, gm):
     w_data = player_df[str(w)].tolist()
     p_data = player_df[str(p)].tolist()
     ow_data = player_df[str(ow)].tolist()
+
 
     """Compile dictionary for chart"""
     df_dict = {
@@ -132,29 +285,7 @@ def PandasWinnerView(request, pl, gm, op):
     return render(request, 'panda.html', context=dict)
 
 
-def EventFilterView(request):
-    game = [1,3]
-    player = 1
-    opponent = [2,4]
-    """If game is collaborative define behaviour"""
-    """How do we manage multiple opponents"""
-    qs = Event.objects.filter(g_players=player).filter(g_name__in=game).filter(g_players__in=opponent)
-
-    count_wins = len(qs.filter(g_winner=player))
-    print("count wins = ", count_wins)
-    count_played = len(qs.filter(g_players=player))
-    print("count played = ", count_played)
-    print(qs)
-    #win_ratio = count_wins/count_played
-    if count_played == 0:
-        win_ratio = 'na'
-    else:
-        win_ratio = count_wins/count_played
-
-    return render(request, 'player_data.html', {'count_wins': count_wins, 'count_played': count_played, 'win_ratio': win_ratio})
-
-
-def DataRequest(request):
+def PlayerDataTotalsView(request):
     """Shell view for retrieving objects"""
 
     """ THIS is where the filters need to be applied"""
@@ -177,20 +308,6 @@ def DataRequest(request):
             obj.percent = player_wins_qs[i]/player_played_qs[i]
         i = i + 1
     return render(request, 'data.html', {'data': players})
-
-
-def WinDataView(request, player_id):
-    # returns count of player id in g_winners
-    data = WinCount(player_id)
-    print('data in QS from WinDataView', data)
-    return render(request, 'data.html', {'data': data})
-
-
-def PlayerDataView(request, player_id):
-    # returns count of player id in g_winners
-    data = PlayedCount(player_id)
-    print('data in QS from PlayerDataView', data)
-    return render(request, 'data.html', {'data': data})
 
 
 def home(request):
@@ -233,19 +350,10 @@ class EventDetailView(DetailView):
     fields = ('g_name', 'g_date', 'g_location', 'g_tag', 'g_players', 'g_notes', 'g_winner')
 
 
-def RecordList(request):
-    """This is a maintenance view of raw list data to html"""
-    e_data = Event.objects.all()
-    p_data = Player.objects.all()
-    g_data = Game.objects.all()
-    print(e_data)
-    return render(request, 'records.html', {'e_data': e_data, 'p_data': p_data, 'g_data': g_data})
-
-
 """
 Forms - two types. 
 First based on create view CLASS. Harder to pass list to template.
-Second based on a view FUNCTION that calls EventForm CLASS. ALlows the function to pass list to template
+Second based on a view FUNCTION that calls EventForm CLASS. Allows the function to pass list to template
 """
 
 
@@ -310,36 +418,6 @@ def GameFormView(request):
     return render(request, 'game_form.html', {'form': form, 'objs': objs})
 
 
-def PlayerDataSelectFormView(request):
-    form = PlayerDataSelectForm(request.POST or None, request.FILES or None)
-    query = []
-
-    # check if form data is valid
-    if form.is_valid():
-        # save the form data to model
-        query = form.cleaned_data
-        # unpack two lists to pass to function
-        player = 1
-        player_label = Player.objects.values_list('name', flat=True).get(id=player)
-        print(player_label)
-        game = 1
-        game_label = Game.objects.values_list('name', flat=True).get(id=game)
-        print(game_label)
-        opponent = 2
-        opponent_label = Player.objects.values_list('name', flat=True).get(id=opponent)
-        print(opponent_label)
-        p_data = PlayerDataComprehensive(player, game)
-        """need to separet and call serparate funtions to get descrete quierysets and parse each in temaplte. then cuycle by oppomante"""
-        #data = 'data holding string'
-        print('player data', p_data)
-        #name_list = form.cleaned_data.name
-        #print(name_list)
-        print(query)
-        return render(request, 'player_data.html', {'query': query, 'p_data': p_data, 'game': game_label, 'player':player_label, 'opponent': opponent_label})
-
-    form = PlayerDataSelectForm()
-    #HttpResponse(form)
-    return render(request, 'player_data_select_form.html', {'form': form, 'query': query})
 
 
 

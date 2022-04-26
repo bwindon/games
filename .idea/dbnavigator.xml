@@ -24,7 +24,12 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="139e0e87-e348-4055-8b4c-00fe758155d8">
+        <schema name="pg_catalog" object-types="function" />
+        <schema name="public" object-types="table, view, sequence, function, constraint, index, column, dataset trigger" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="139e0e87-e348-4055-8b4c-00fe758155d8">
@@ -39,6 +44,7 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="139e0e87-e348-4055-8b4c-00fe758155d8" dataset="public.records_player" active-filter-id="" />
+    <filter-actions connection-id="139e0e87-e348-4055-8b4c-00fe758155d8" dataset="public.records_event" active-filter-id="" />
     <filter-actions connection-id="139e0e87-e348-4055-8b4c-00fe758155d8" dataset="public.records_event_g_players" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
@@ -70,7 +76,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="139e0e87-e348-4055-8b4c-00fe758155d8" active="true">
+      <connection id="139e0e87-e348-4055-8b4c-00fe758155d8" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />

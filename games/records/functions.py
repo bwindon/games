@@ -1,3 +1,4 @@
+import json
 from records.models import Player, Event, Game
 import pandas as pd
 
@@ -37,6 +38,71 @@ def CreatePlayerDataFrame(pl):
     return player_df
 
 
+def DataFrameToStackedList(pl):
+    '''a format for stacked complete player data'''
+    data = CreatePlayerDataFrame(pl)
+    print(data)
+    data_na = data.fillna(0)
+
+    '''remove unwanted columns
+    [
+        ["opponent", "wins", "opponent wins"],
+        ["Brad - m", 4, 2],
+        ["Brad - s", 0, 1],
+        ["Rob - m", 1, 4],
+        ["Rob - s", 1, 4],
+        ["Rob - d", 1, 4],
+        ["Rob - x", 1, 4],
+    ]
+    '''
+    length = len(data_na.columns)
+
+    a = length -1
+    seq1 = []
+    seq2 = []
+    for i in range(1, length, 4):
+        seq1.append(i)
+        seq2 = i - 1
+        seq1.append(seq2)
+
+    seq1.append(length -1)
+    seq1.sort()
+
+    data_slice = data_na.iloc[:, (seq1)]
+
+    d = data_slice.values.tolist()
+    c = data_slice.columns.tolist()
+    d.insert(0, c)
+    print(d)
+    return d
+
+
+def DataFrameToList(pl):
+    data = CreatePlayerDataFrame(pl)
+    data_na = data.fillna(0)
+
+    '''remove unwanted columns'''
+    length = len(data_na.columns)
+
+    a = length -1
+    seq1 = []
+    seq2 = []
+    for i in range(1, length, 4):
+        seq1.append(i)
+        seq2 = i - 1
+        seq1.append(seq2)
+
+    seq1.append(length -1)
+    seq1.sort()
+
+    data_slice = data_na.iloc[:, (seq1)]
+
+    d = data_slice.values.tolist()
+    c = data_slice.columns.tolist()
+    d.insert(0, c)
+    return d
+
+
 def EventFilter(g_players, g_name):
     qs = Event.objects.all().filter(g_players).filter(g_name)
     return qs
@@ -73,6 +139,8 @@ def PlayerWinsCountQS():
 def WinCount(player_id):
     """Return number of counts of player id in g_winner column"""
     count = len(Event.objects.all().filter(g_winner=player_id))
+    test = Event.objects.all()
+    print('Test win count', test)
     return count
 
 
@@ -100,7 +168,8 @@ def PlayerData(player, game, opponent):
     opponent_wins = count_played - count_wins
 
     if count_played == 0:
-        win_ratio = 'na'
+        # win_ratio = 'na'
+        win_ratio = 0
     else:
         win_ratio = count_wins/count_played
 

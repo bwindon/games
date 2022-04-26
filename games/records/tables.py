@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 
 
 class EventTable(tables.Table):
-    g_winner = tables.Column(footer="Total:")
+    #g_winner = tables.Column(footer="Total:")
     g_date = tables.Column(accessor='g_date', localize=True)
     id = tables.LinkColumn("event_detail", args=[A("pk")])
     g_collab = tables.Column(accessor='g_name.collab', verbose_name='Collaborative?')
@@ -15,7 +15,7 @@ class EventTable(tables.Table):
         model = Event
         #template_name = "django_tables2/bootstrap.html"
         template_name = "django_tables2/bootstrap-responsive.html"
-        fields = ("id", "g_name", "g_collab", "g_tag", "g_date", "g_location", "g_players", "g_notes", "g_winner", "with_counts")
+        fields = ("id", "g_name", "g_collab", "g_tag", "g_date", "g_location", "g_players", "g_notes", "g_winner")
 
 
 class PlayerTable(tables.Table):

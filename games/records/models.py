@@ -39,11 +39,12 @@ class Event(models.Model):
     g_tag = models.CharField(blank=True, max_length=50, verbose_name='Descriptor')
     g_players = models.ManyToManyField(Player, verbose_name='Players', related_name='Players')
     g_notes = models.CharField(blank=True, null=True, verbose_name='Notes', max_length=100)
-    g_winner = models.ManyToManyField(Player, blank=True, verbose_name='Winner')
+    #g_winner = models.ForeignKey(Player, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Winner')
+    g_winner = models.ManyToManyField(Player, verbose_name='Winner', related_name='Winner')
     multi_player = models.BooleanField(default=False)
 
     def __str__(self):
-        return 'ID = %s  %s  on  %s' % (self.id, self.g_name, self.g_date)
+        return 'ID = %s  %s  on  %s at %s - winner - %s' % (self.id, self.g_name, self.g_date, self.g_location, self.g_winner)
 
 
 

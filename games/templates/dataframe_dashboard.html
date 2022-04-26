@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+
+      // Load the Visualization API and the controls package.
+      google.charts.load('visualization', '1.0', {'packages':['bar', 'table', 'controls']});
+
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawDashboard);
+      google.charts.setOnLoadCallback(drawTable);
+
+      // Callback that creates and populates a data table,
+      // instantiates a dashboard, a range slider and a chart,
+      // passes in the data and draws it.
+      function drawDashboard() {
+
+        // Create our data table.
+        var data = google.visualization.arrayToDataTable({{values|safe}});
+
+        // Create a dashboard.
+        var dashboard = new google.visualization.Dashboard(
+            document.getElementById('dashboard_div'));
+
+        // Create a category filter, passing some options (opponent)
+        var columnFilter = new google.visualization.ControlWrapper({
+          'controlType': 'CategoryFilter',
+          'containerId': 'filter_div',
+          'options': {
+            'filterColumnLabel': 'opponent',
+            'uiSortValues': 'true',
+            'ui.allowTyping': 'true',
+          }
+        });
+
+        // Create a category filter, passing some options (game)
+        //var columnFilter = new google.visualization.ControlWrapper({
+        //  'controlType': 'CategoryFilter',
+        //  'containerId': 'filter_div_game',
+        //  'options': {
+        //    'filterColumnLabel': 'opponent',
+        //    'uiSortValues': 'true',
+        //    'ui.allowTyping': 'true',
+        //  }
+        //});
+
+
+        // Create a range slider, passing some options
+        //var columnSlider = new google.visualization.ControlWrapper({
+        //  'controlType': 'NumberRangeFilter',
+        //  'containerId': 'slider_div',
+        //  'options': {
+        //    'filterColumnLabel': 'cou1w',
+        //  },
+        //  'state': {'lowValue': 1},
+        //});
+
+        // Create a chart, passing some options
+        var columnChart = new google.visualization.ChartWrapper({
+          'chartType': 'ColumnChart',
+          'containerId': 'chart_div',
+          'options': {
+
+            legend: 'right',
+            //isStacked: true,
+            //height: 300,
+            //bar: { groupWidth: '75%' },
+            animation: {
+              startup: false,
+              duration: 500,
+              easing: 'out',
+            },
+          },
+        });
+
+        // Establish dependencies, declaring that 'filter' drives 'columnChart',
+        // so that the chart will only display entries that are let through
+        // given the chosen slider range.
+        dashboard.bind(columnFilter, columnChart);
+        //dashboard.bind(columnFilter_game, columnChart);
+        //dashboard.bind(columnSlider, columnChart);
+
+        // Draw the dashboard.
+        dashboard.draw(data);
+      }
+
+      // table
+      function drawTable() {
+        var data = new google.visualization.arrayToDataTable({{values|safe}});
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+
+
+    </script>
+  </head>
+
+  <body>
+
+    <!--Div that will hold the dashboard-->
+    <div id="dashboard_div">
+      <!--Divs that will hold each control and chart-->
+      <div id="filter_div"></div>
+      <div id="slider_div"></div>
+      <div id="chart_div"></div>
+      <div id="table_div"></div>
+
+    </div>
+  </body>
+</html>
+{% endblock %}

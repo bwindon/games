@@ -27,6 +27,7 @@ class PlayerDataSelectForm(forms.Form):
     chart_type = forms.ChoiceField(choices=CHART_CHOICES)
 """
 
+
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
@@ -75,11 +76,10 @@ class PlayerDataSelectForm(forms.Form):
         MYQUERY2 = Game.objects.values_list('id', 'name')
         self.fields['game'] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=(*MYQUERY2,))
 
-"""
         CHART_CHOICES = (
-            ('1', 'Bar Graph'),
-            ('2', 'Pie Chart'),
-            ('3', 'Line Graph')
+            ('1', 'google'),
+            ('2', 'chartJS'),
+            ('3', 'google dashboard'),
         )
         self.fields['chart'] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=(*CHART_CHOICES,))
-"""
+
